@@ -1,0 +1,19 @@
+{
+  "name": "C/CXX Development",
+  "dockerComposeFile": "compose.yaml",
+  "service": "cdev",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/zsh"
+      },
+      "extensions": [
+        "ms-vscode.cmake-tools",
+        "ms-vscode.cpptools",
+        "ms-vscode.hexeditor"
+      ]
+    }
+  },
+  "remoteUser": "vscode",
+  "workspaceFolder": "/workspace"
+}

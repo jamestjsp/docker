@@ -1,0 +1,30 @@
+# From the latest Ubuntu LTS image
+FROM ubuntu:24.04
+
+# Install the necessary packages for C/CXX development
+RUN apt-get update && apt-get install -y \
+    curl \
+    clang \
+    build-essential \
+    git \
+    cmake \
+    ninja-build \
+    gdb \
+    valgrind \
+    cppcheck \
+    zsh \
+    sudo \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create a non root user vscode, set zsh as the default shell, and add to sudo group
+RUN useradd -m -s /bin/zsh vscode && echo "vscode ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+# Switch to the vscode user
+USER vscode
+
+# Install Oh My Zsh and set the theme to "arrow"
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && \
+    sed -i 's/ZSH_THEME=".*"/ZSH_THEME="arrow"/' /home/vscode/.zshrc
+
+# Set the working directory
+WORKDIR /workspace

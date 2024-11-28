@@ -1,0 +1,10 @@
+services:
+  cdev:
+    image: cdev:latest
+    env_file:
+      - .env
+    volumes:
+      - ..:/workspace
+    ports:
+      - "8080:8080"
+    command: sleep infinity
