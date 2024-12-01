@@ -28,7 +28,7 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Packages using pip for Python 3.12
-RUN pip3 install --no-cache-dir slycot control harold jupyterlab
+RUN pip3 install --no-cache-dir slycot control harold pandas jupyterlab
 
 # Create a non root user vscode, set zsh as the default shell, and add to sudo group
 RUN useradd -m -s /bin/zsh vscode && echo "vscode ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
