@@ -1,21 +1,34 @@
-# From the latest Ubuntu LTS image
-FROM ubuntu:24.04
+# Use the Python 3.12 image from the Docker Hub
+FROM python:3.12 AS base
 
-# Install the necessary packages for C/CXX development
-RUN apt-get update && apt-get install -y \
+# Label the image
+LABEL maintainer="James J"
+LABEL version="1.0"
+LABEL description="This is a devcontainer image for python3 development for Control System"
+
+# Set non-interactive frontend
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Update and install dependencies
+RUN apt-get update && \
+    apt-get install -y \
     curl \
     git \
     sudo \
     build-essential \
     cmake \
     ninja-build \
-    clang \
+    libblas-dev \
+    liblapack-dev \
+    gcc \
+    gfortran \
     gdb \
-    valgrind \
-    cppcheck \
     tree \
     zsh \
     && rm -rf /var/lib/apt/lists/*
+
+# Install Packages using pip for Python 3.12
+RUN pip3 install --no-cache-dir slycot control harold jupyterlab
 
 # Create a non root user vscode, set zsh as the default shell, and add to sudo group
 RUN useradd -m -s /bin/zsh vscode && echo "vscode ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
@@ -29,3 +42,6 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
 
 # Set the working directory
 WORKDIR /workspace
+
+# Expose JupyterLab port
+EXPOSE 8888
